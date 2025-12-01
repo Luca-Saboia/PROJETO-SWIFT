@@ -56,7 +56,7 @@ class Plano{
 
 class PlanoMensal: Plano{
     init(){
-        super.init(nome: "PLano Mensal")
+        super.init(nome: "Plano Mensal")
     }
     override func calcularMensalidade() -> Double{
         return 120.0
