@@ -1,6 +1,7 @@
-Ana Gabrielle
-Eduardo
-André
-Luca
+Ana Gabrielle da Silva Oliveira
+Eduardo Oliveira
+André Cintra
+Luca Saboia
 
-Tivemos facilidade para criar a classe plano e suas subclasses.
+Seguimos oque estava falando no projeto, e não tivemos nenhuma dificuldade, por enquanto não vimos algo que desvie de um projeto real.
+

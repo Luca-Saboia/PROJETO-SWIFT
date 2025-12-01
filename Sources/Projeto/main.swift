@@ -1,3 +1,8 @@
+//Luca Saboia
+//Ana Gabrielle da Silva Oliveira
+//Eduardo Oliveira
+//André Cintra
+
 public class Pessoa{
     private var nome: String
     private var email: String
