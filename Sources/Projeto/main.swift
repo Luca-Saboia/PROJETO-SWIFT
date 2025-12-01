@@ -1,5 +1,5 @@
 class Plano{
-    var nome: Sring
+    var nome: String
     
     init(nome: String){
         self.nome = nome
@@ -16,5 +16,15 @@ class PlanoMensal: Plano{
     }
     override func calcularMensalidade() -> Double{
         return 120.0
+    }
+}
+
+class PlanoAnual : Plano {
+    init() {
+        super.init(nome: "Plano Anual (Promocional)")
+    }
+
+    override func calcularMensalidade() -> Double {
+        return 120 * 0.8 
     }
 }
