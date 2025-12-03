@@ -80,6 +80,82 @@ class PlanoAnual : Plano {
     }
 }
 
+//Código dia 2
+
+protocol Manutencao {
+    private var nomeItem: String 
+    private var dataUltimaManutencao: String
+    private var numero = Int.random(in: 1...100)
+    
+    public func realizarManutencao() -> Bool {
+        return true
+    }
+}
+
+public class Aparelho: Manutencao {
+    private var nomeItem: String 
+    private(set) var dataUltimaManutencao: String? = nil
+    private var numero = Int.random(in: 1...100)
+    
+    init(nomeItem: String)
+    
+    public func realizarManutencao() -> Bool {
+        if (numero > 92){
+            return false
+        } 
+        dataUltimaManutencao = Date()
+        return true
+    }
+}
+
+public class Aula {
+    private var nome: String
+    private var instrutor = Instrutor(nome: "João", email: "joao.santos@gmail.com.br", especialidade: "Personal")
+    public func getDescricao() -> String {
+        return "Aula de Superior de \(nome) com o Instrutor \(Instrutor.nome)"
+    }
+}
+
+public class AulaPersonal: Aula {
+    private var aluno = Aluno(nome: "Luca", email: "luca.saboia@gmail.com", matricula: "1234ABC", plano: "Plano Mensal")
+    public override func getDescricao() -> String {
+        return "Sua aula sera com \(Aluno.nome)"
+    }
+}
+
+public class AulaColetiva: Aula {
+    private(set) var alunosInscritos: [String: Aluno] = [:]
+    private var capacidadeMaxima: Int = 25
+     
+    public func inscrever(aluno: Aluno) -> Bool {
+        if ( alunosInscritos.count > capacidadeMaxima){
+            print("Capacidade maxima atingida")
+            return false
+        }
+
+        for (aluno) in alunosInscritos {
+            if(aluno == aluno.getMatricula){
+                print("O aluno ja está inscrito")
+                return false
+            } else {
+                alunosInscritos[aluno.matricula] = aluno
+                print("O aluno foi inscrito")
+                return true
+            }
+        }
+        
+        var contagem = alunosInscritos.count
+        
+        public override func getDescricao() -> String {
+            return "Aula de Superior de \(nome) com o Instrutor \(Instrutor.nome), com capacidade máxima de \(capacidadeMaxima), e \(contagem) vagas ocupadas."
+        }
+        
+        
+
+        
+    }
+}
+
 //Codigo dia 3
 
 class Academia{
