@@ -6,14 +6,20 @@
 
 //Codigo dia 1
 public class Pessoa{
-    private(set) var nome: String
-    private(set) var email: String
+    var nome: String
+    var email: String
+    
+    init(nome: String, email: String) { 
+        self.nome = nome
+        self.email = email
+    }
 
-    public func getDescricao() -> String{
+
+    public func getDescricao() -> String {
         return "Nome: \(nome) | Email: \(email) "
     }
 
-    enum NivelAluno(){
+    enum NivelAluno{
         case iniciante
         case intermediario
         case avancado
@@ -28,11 +34,11 @@ public class Aluno: Pessoa{
     init(nome: String, email: String, matricula: String, plano: Plano){
         self.matricula = matricula
         self.plano = plano
-        super.init(nome, email)
+        super.init(nome: nome, email: email)
     }
 
-    public override func getDescricao(){
-        return super.getDescricao() + "| Matricula: \(matricula) | Plano: \(plano)"
+    public override func getDescricao() -> String {
+        return super.getDescricao() + "| Matricula: \(matricula) | Plano: \(plano.nome)"
     }
 }
 
@@ -41,10 +47,10 @@ public class Instrutor: Pessoa{
 
     init(nome: String, email: String, especialidade: String){
         self.especialidade = especialidade
-        super.init(nome, email)
+        super.init(nome: nome, email: email)
     }
 
-    public override func getDescricao(){
+    public override func getDescricao() -> String {
         return super.getDescricao() + "| Especialidade \(especialidade)"
     }
 }
@@ -83,76 +89,77 @@ class PlanoAnual : Plano {
 //Código dia 2
 
 protocol Manutencao {
-    private var nomeItem: String 
-    private var dataUltimaManutencao: String
-    private var numero = Int.random(in: 1...100)
+    var nomeItem: String { get set }
+    var dataUltimaManutencao: String { get }
     
-    public func realizarManutencao() -> Bool {
-        return true
-    }
+    func realizarManutencao() -> Bool 
 }
 
 public class Aparelho: Manutencao {
-    private var nomeItem: String 
-    private(set) var dataUltimaManutencao: String? = nil
-    private var numero = Int.random(in: 1...100)
+    var nomeItem: String
+    public private(set) var dataUltimaManutencao: String = "Nenhuma"
+
     
-    init(nomeItem: String)
+    init(nomeItem: String){
+        self.nomeItem = nomeItem
+    }
     
-    public func realizarManutencao() -> Bool {
-        if (numero > 92){
-            return false
-        } 
-        dataUltimaManutencao = Date()
+    func realizarManutencao() -> Bool {
+        dataUltimaManutencao = "04/12/2025"
         return true
     }
 }
 
 public class Aula {
-    private var nome: String
-    private var instrutor = Instrutor(nome: "João", email: "joao.santos@gmail.com.br", especialidade: "Personal")
+    var nome: String
+    var instrutor: Instrutor
+    
+    init(nome: String, instrutor: Instrutor) {
+        self.nome = nome
+        self.instrutor = instrutor
+    }
+    
     public func getDescricao() -> String {
-        return "Aula de Superior de \(nome) com o Instrutor \(Instrutor.nome)"
+        return "Aula de Superior de \(nome) com o Instrutor \(instrutor.nome)"
     }
 }
 
 public class AulaPersonal: Aula {
-    private var aluno = Aluno(nome: "Luca", email: "luca.saboia@gmail.com", matricula: "1234ABC", plano: "Plano Mensal")
+    var aluno: Aluno
+    
+    init(nome: String, instrutor: Instrutor, aluno: Aluno) {
+        self.aluno = aluno
+        super.init(nome: nome, instrutor: instrutor)
+    }
+    
     public override func getDescricao() -> String {
-        return "Sua aula sera com \(Aluno.nome)"
+        return "Sua aula sera com \(aluno.nome)"
     }
 }
 
 public class AulaColetiva: Aula {
     private(set) var alunosInscritos: [String: Aluno] = [:]
-    private var capacidadeMaxima: Int = 25
-     
+    var capacidadeMaxima: Int = 25
+    
     public func inscrever(aluno: Aluno) -> Bool {
-        if ( alunosInscritos.count > capacidadeMaxima){
+        if alunosInscritos.count >= capacidadeMaxima{
             print("Capacidade maxima atingida")
             return false
         }
 
-        for (aluno) in alunosInscritos {
-            if(aluno == aluno.getMatricula){
-                print("O aluno ja está inscrito")
-                return false
-            } else {
-                alunosInscritos[aluno.matricula] = aluno
-                print("O aluno foi inscrito")
-                return true
-            }
+        if alunosInscritos[aluno.matricula] != nil {
+            print("O aluno já está inscrito.")
+            return false
         }
         
-        var contagem = alunosInscritos.count
-        
-        public override func getDescricao() -> String {
-            return "Aula de Superior de \(nome) com o Instrutor \(Instrutor.nome), com capacidade máxima de \(capacidadeMaxima), e \(contagem) vagas ocupadas."
-        }
+        alunosInscritos[aluno.matricula] = aluno
+        print("Aluno inscrito com sucesso!")
+        return true
         
         
-
-        
+    }
+    public override func getDescricao() -> String {
+        return "Aula em grupo de \(nome), com o Instrutor \(instrutor.nome), com capacidade máxima de \(capacidadeMaxima), e \(alunosInscritos.count) vagas ocupadas."
     }
 }
 
