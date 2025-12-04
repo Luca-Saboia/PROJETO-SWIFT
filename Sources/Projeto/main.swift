@@ -6,8 +6,8 @@
 
 //Codigo dia 1
 public class Pessoa{
-    private var nome: String
-    private var email: String
+    private(set) var nome: String
+    private(set) var email: String
 
     public func getDescricao() -> String{
         return "Nome: \(nome) | Email: \(email) "
@@ -179,13 +179,13 @@ class Academia{
         aulasDisponiveis.append(aula)
     }
     func contratarInstrutor(_ instrutor: Instrutor){
-        instrutoresContratados.append(instrutor)
+        instrutoresContratados[instrutor.email] = instrutor
     }
     
     func matricularAluno(_ aluno: Aluno) {
-        var matricula = aluno.matricula
-        if let alunoMatriculado = alunosMatriculados[matricula]{
-            print("Erro: Aluno com matrícula \(matricula) ja existe")
+        let matricula = aluno.matricula
+        if alunosMatriculados[matricula] != nil {
+            print("Erro: Aluno com matrícula \(matricula) já existe")
         } else{
             alunosMatriculados[matricula] = aluno
             print("Aluno adicionado com sucesso")
@@ -193,11 +193,9 @@ class Academia{
     }
     
     func matricularAluno(nome: String, email: String, matricula: String, plano: Plano) -> Aluno {
-        novoAluno = Aluno(nome: nome, email: email, matricula: matricula, plano: plano)
+        let novoAluno = Aluno(nome: nome, email: email, matricula: matricula, plano: plano)
         
-        let alunoMatriculado = buscarAluno(novoAluno) 
-        
-        if alunoMatriculado != nil {
+        if let alunoMatriculado = buscarAluno(matricula: novoAluno.matricula) {
             return alunoMatriculado
         }
         else {
